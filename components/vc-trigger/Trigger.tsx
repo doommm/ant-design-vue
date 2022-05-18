@@ -362,11 +362,14 @@ export default defineComponent({
       }
     },
 
-    onDocumentClick(event) {
+    onDocumentClick(event: MouseEvent) {
       if (this.$props.mask && !this.$props.maskClosable) {
         return;
       }
-      const target = event.target;
+      let target = event.target as HTMLElement;
+      if (event.composed && target.shadowRoot) {
+        // target = event.composedPath()[0] as HTMLElement;
+      }
       const root = this.getRootDomNode();
       const popupNode = this.getPopupDomNode();
       if (
